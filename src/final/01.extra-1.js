@@ -8,7 +8,7 @@ import {fetchPokemon, PokemonDataView, PokemonErrorBoundary} from '../pokemon'
 let pokemon
 let pokemonError
 let pokemonPromise = fetchPokemon('pikachu').then(
-  p => (pokemon = p),
+  pokemonData => (pokemon = pokemonData),
   e => (pokemonError = e),
 )
 
