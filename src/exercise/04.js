@@ -36,6 +36,17 @@ const SUSPENSE_CONFIG = {
 // and inserts it into the cache. Finally the function should return the
 // resource.
 
+const pokemonResourceCache = {}
+
+function getPokemonResource(name) {
+  let resource = pokemonResourceCache[name]
+  if (!resource) {
+    resource = createPokemonResource(name)
+    pokemonResourceCache[name] = resource
+  }
+  return resource
+}
+
 function createPokemonResource(pokemonName) {
   return createResource(fetchPokemon(pokemonName))
 }
@@ -46,13 +57,14 @@ function App() {
   const [pokemonResource, setPokemonResource] = React.useState(null)
 
   React.useEffect(() => {
+    console.log(pokemonResourceCache)
     if (!pokemonName) {
       setPokemonResource(null)
       return
     }
     startTransition(() => {
       // 🐨 change this to getPokemonResource instead
-      setPokemonResource(createPokemonResource(pokemonName))
+      setPokemonResource(getPokemonResource(pokemonName))
     })
   }, [pokemonName, startTransition])
 
